@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <form action="/book/bookList"  method="get" >
+        <select name="category">
+            <option value="">선택안함</option>
+            <option value="title">제목</option>
+            <option value="isbn">책 코드</option>
+            <option value="publisher">출판사</option>
+            <option value="person">지은이</option>
+        </select>
+        <input type="text" name="keyword">
+        <button type="submit">등록</button>
+    </form>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>책표지</th>
+                <th>상품명</th>
+                <th>내용</th>
+                <th>가격</th>
+                <th>지은이</th>
+                <th>출판사</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:if="${ #lists.size(list) > 0 }">
+                <tr th:each="item : ${list}">
+                    <td><img th:src="${item.thumbnail}"/></td>
+                    <td th:style="${ 'width:150px;'}" th:text="${item.title}"></td>
+                    <td th:style="${ 'width:500px; white-space: normal; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient: vertical; overflow: hidden;'}" th:utext="${item.contents}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td th:text="${item.authors}"></td>
+                    <td th:text="${item.publisher}"></td>
+                </tr>
+            </th:block>
+            <th:block th:if="${ #lists.size(list) < 1 }">
+                <tr>
+                    <td th:colspan="6">검색된 책이 없습니다.</td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
