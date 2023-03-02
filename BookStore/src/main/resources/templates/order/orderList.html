@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>책표지</th>
+                <th>책이름</th>
+                <th>책가격</th>
+                <th>책갯수</th>
+                <th>총가격</th>
+                <th>주문한사람</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:if="${ #lists.size(orders) > 0 }">
+                <tr th:each="item : ${list}">
+                    <td><a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><img th:src="${item.thumbnail}"/></a></td>
+                    <td th:style="${ 'width:150px;'}">
+                        <a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><span th:text="${item.title}">message</span></a>
+                    </td>
+                    <td th:style="${ 'width:500px; white-space: normal; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient: vertical; overflow: hidden;'}" th:utext="${item.contents}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td th:text="${item.authors}"></td>
+                    <td th:text="${item.publisher}"></td>
+                </tr>
+            </th:block>
+            <th:block th:if="${ #lists.size(list) < 1 }">
+                <tr>
+                    <td th:colspan="6">검색된 책이 없습니다.</td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

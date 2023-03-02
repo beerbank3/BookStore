@@ -30,8 +30,10 @@
             <tbody>
             <th:block th:if="${ #lists.size(list) > 0 }">
                 <tr th:each="item : ${list}">
-                    <td><img th:src="${item.thumbnail}"/></td>
-                    <td th:style="${ 'width:150px;'}" th:text="${item.title}"></td>
+                    <td><a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><img th:src="${item.thumbnail}"/></a></td>
+                    <td th:style="${ 'width:150px;'}">
+                        <a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><span th:text="${item.title}">message</span></a>
+                    </td>
                     <td th:style="${ 'width:500px; white-space: normal; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient: vertical; overflow: hidden;'}" th:utext="${item.contents}"></td>
                     <td th:text="${item.price}"></td>
                     <td th:text="${item.authors}"></td>

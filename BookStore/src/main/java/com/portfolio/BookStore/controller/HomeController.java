@@ -13,4 +13,10 @@ public class HomeController {
         log.info("home controller");
         return "home";
     }
+
+    @RequestMapping("/bm")
+    public String bookmanage(){
+        log.info("bookmanage controller");
+        return "index";
+    }
 }
