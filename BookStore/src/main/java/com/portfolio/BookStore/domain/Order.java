@@ -3,7 +3,8 @@ package com.portfolio.BookStore.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.aspectj.weaver.ast.Or;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -15,14 +16,20 @@ public class Order {
     private Long id;
 
     private String member;
-    private String isbn;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_isbn")
+    private Book book;
     private int count;
 
-    public static Order createOrder(String isbn, int count){
-        Order order = new Order();
-        order.setIsbn(isbn);
-        order.setCount(count);
+    private LocalDateTime orderDate;
 
+
+    public static Order createOrder(Book book, int count){
+        Order order = new Order();
+        order.setBook(book);
+        order.setCount(count);
+        order.setOrderDate(LocalDateTime.now());
         return order;
     }
 }

@@ -14,20 +14,21 @@
                 <th>책가격</th>
                 <th>책갯수</th>
                 <th>총가격</th>
-                <th>주문한사람</th>
+                <th>주문시간</th>
             </tr>
             </thead>
             <tbody>
-            <th:block th:if="${ #lists.size(orders) > 0 }">
-                <tr th:each="item : ${list}">
-                    <td><a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><img th:src="${item.thumbnail}"/></a></td>
+            <th:block th:if="${ #lists.size(list) > 0 }">
+                <tr th:each="item, loop : ${list}">
+                    <td th:text="${ loop.size - loop.index }"></td>
+                    <td><img th:src="${item.book.thumbnail}"/></td>
                     <td th:style="${ 'width:150px;'}">
-                        <a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><span th:text="${item.title}">message</span></a>
+                        <span th:text="${item.book.title}">message</span>
                     </td>
-                    <td th:style="${ 'width:500px; white-space: normal; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient: vertical; overflow: hidden;'}" th:utext="${item.contents}"></td>
-                    <td th:text="${item.price}"></td>
-                    <td th:text="${item.authors}"></td>
-                    <td th:text="${item.publisher}"></td>
+                    <td th:text="${item.book.price}"></td>
+                    <td th:text="${item.count}"></td>
+                    <td th:text="${item.book.price * item.count }"></td>
+                    <td th:text="${item.orderDate}"></td>
                 </tr>
             </th:block>
             <th:block th:if="${ #lists.size(list) < 1 }">

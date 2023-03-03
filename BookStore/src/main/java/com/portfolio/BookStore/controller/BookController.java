@@ -147,9 +147,9 @@ public class BookController {
     @GetMapping("/order/orderList")
     public String OrderList(Model model) throws Exception{
 
-        List<Order> orders = orderService.findOrders();
+        List<Order> list = orderService.findOrders();
 
-        model.addAttribute("orders",orders);
+        model.addAttribute("list",list);
 
         return "/order/orderList";
     }

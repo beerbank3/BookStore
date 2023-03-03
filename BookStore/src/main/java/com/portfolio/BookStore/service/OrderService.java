@@ -24,15 +24,12 @@ public class OrderService {
 
         Book book = bookRepository.findOne(isbn);
 
-        Order order = Order.createOrder(isbn,count);
+        Order order = Order.createOrder(book,count);
         orderRepository.save(order);
 
         return order.getId();
     }
 
-    public List<Order> findOrders(OrderSearch orderSearch){
-        return orderRepository.findAll(orderSearch);
-    }
     public List<Order> findOrders(){
         return orderRepository.findAll();
     }

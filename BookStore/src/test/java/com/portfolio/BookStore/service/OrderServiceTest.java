@@ -39,4 +39,23 @@ public class OrderServiceTest {
 
         assertEquals("주문 기능 테스트", getOrder.getId(), orderId);
     }
+    
+    @Test
+    public void orderList() throws Exception{
+        //given
+        orderService.order("1159421951 9791159421952",2);
+        //when
+        List<Order> order = orderRepository.findAll();
+        
+        //then
+        System.out.println("order.size() = " + order.size());
+        for(Order list : order){
+            System.out.println("list.toString() = " + list.getBook().getIsbn());
+            System.out.println("list.toString() = " + list.getBook().getTitle());
+            System.out.println("list.toString() = " + list.getBook().getThumbnail());
+            System.out.println("list.toString() = " + list.getBook().getPrice());
+            System.out.println("list.toString() = " + list.getBook().getPublisher());
+        }
+    }
+
 }
