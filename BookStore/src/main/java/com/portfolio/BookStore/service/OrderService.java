@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -29,7 +30,10 @@ public class OrderService {
 
         return order.getId();
     }
-
+    //책 총 판매량
+    public Integer findBookSalesRate(){ return orderRepository.findBookSalesRate(); }
+    //책 총 판매액수
+    public Integer findTotalBookSales(){ return orderRepository.findTotalBookSales(); }
     public List<Order> findOrders(){
         return orderRepository.findAll();
     }
