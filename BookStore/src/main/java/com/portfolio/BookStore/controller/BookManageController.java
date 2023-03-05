@@ -16,7 +16,7 @@ public class BookManageController {
     private final BookService bookService;
     private final OrderService orderService;
 
-    @RequestMapping("/bm")
+    @RequestMapping("/bm/main")
     public String bookmanage(Model model){
 
         Integer BookSalesRate = orderService.findBookSalesRate();//책 총 판매량
