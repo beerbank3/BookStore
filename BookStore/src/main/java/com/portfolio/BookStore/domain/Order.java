@@ -24,6 +24,8 @@ public class Order {
 
     private LocalDateTime orderDate;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     public static Order createOrder(Book book, int count){
         Order order = new Order();

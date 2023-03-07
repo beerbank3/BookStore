@@ -1,28 +1,43 @@
 package com.portfolio.BookStore.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
-@Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "Users")
+@Getter @Setter @Builder
+@Table(name = "users")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
+    @JsonIgnore
     @Id
-    private String userId;
+    @Column(name ="user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
 
-    private String userPw;
+    @Column(name = "username", length = 50, unique = true)
+    private String username;
 
-    private String userName;
+    @JsonIgnore
+    @Column(name = "password", length = 100)
+    private String password;
 
-    private String userStatus;
+    @Column(name = "nickname", length = 50)
+    private String nickname;
 
-    @Builder
-    public User(String userId, String userPw, String userName, String userStatus) {
-        this.userId = userId;
-        this.userPw = userPw;
-        this.userName = userName;
-        this.userStatus = userStatus;
-    }
+    @JsonIgnore
+    @Column(name = "activated")
+    private boolean activated;
+
+    @ManyToMany
+    @JoinTable(
+            name ="user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
+
 }

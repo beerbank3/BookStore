@@ -1,15 +1,16 @@
 package com.portfolio.BookStore.repository;
 
 import com.portfolio.BookStore.domain.User;
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-@RequiredArgsConstructor
-public class UserRepository {
+import java.util.Optional;
 
-    private final EntityManager em;
 
-    public User findOne(Long userId){ return em.find(User.class, userId); }
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    @EntityGraph(attributePaths = "authorities")//eager조회
+    Optional<User> findOneWithAuthoritiesByusername(String username);
+
+    Optional<Object> findOneWithAuthoritiesByUsername(String username);
 }
