@@ -58,12 +58,9 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/hello", "/api/authenticate", "/api/signup").permitAll()
+                .requestMatchers("/","/api/**","/register","/book/**","/order/**","/bm/login").permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
-                .requestMatchers("/","/book/**","/order/**","/bm/login").permitAll()
-                //.requestMatchers("/bm/**").authenticated()
                 .anyRequest().authenticated()
-                //.and().formLogin().loginPage("/bm/login").loginProcessingUrl("/bm/login")
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));

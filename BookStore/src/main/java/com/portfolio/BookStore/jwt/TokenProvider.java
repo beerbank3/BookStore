@@ -3,6 +3,7 @@ package com.portfolio.BookStore.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,13 +18,12 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Component
 public class TokenProvider implements InitializingBean {
 
-//    private final Logger logger = (Logger) LoggerFactory.getLogger(TokenProvider.class);
+    private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
 
@@ -84,13 +84,13 @@ public class TokenProvider implements InitializingBean {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-//            logger.info("잘못된 JWT 서명입니다.");
+            logger.info("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
-//            logger.info("만료된 JWT 토큰입니다.");
+            logger.info("만료된 JWT 토큰입니다.");
         } catch (UnsupportedJwtException e) {
-//            logger.info("지원되지 않는 JWT 토큰입니다.");
+            logger.info("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
-//            logger.info("JWT 토큰이 잘못되었습니다.");
+            logger.info("JWT 토큰이 잘못되었습니다.");
         }
         return false;
     }

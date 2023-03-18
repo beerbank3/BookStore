@@ -23,12 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/hello")
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("hello");
-    }
-
-    @PostMapping("/test-redirect")
+    @PostMapping("/test-register")
     public void testRedirect(HttpServletResponse response) throws IOException {
         response.sendRedirect("/api/user");
     }
@@ -39,7 +34,6 @@ public class UserController {
     ) {
         return ResponseEntity.ok(userService.signup(userDto));
     }
-
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<UserDto> getMyUserInfo(HttpServletRequest request) {

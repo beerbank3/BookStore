@@ -20,12 +20,10 @@ spring:
       enabled: true
     restart:
       enabled: true
-    thymeleaf:
-      cache: false
-  security:
-    user:
-      name: user
-      password: 1234
+  freemarker:
+    cache: false
+  thymeleaf:
+    cache: false
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
