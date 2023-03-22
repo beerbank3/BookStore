@@ -9,18 +9,20 @@
             <div th:replace="fragments/bodyHeader :: bodyHeader" />
             <div class="jumbotron">
                 <h1>Search Main</h1>
-                <p class="lead">책</p>
-                <p>
+                <div class="post-slider">
+                    <h1 class="sider-title">알라딘 베스트셀러 리스트 - 국내도서</h1>
+                    <div class="book-wrapper">
+                        <div th:each="item : ${list}">
+                            <img th:height="100px" th:src="${item.thumbnail}"/>
+                            <p class="title" th:text="${item.title}">message</p>
+                        </div>
+                    </div>
+                </div>
+                <div th:style="${ 'padding-top:20px;'}">
                     <a class="btn btn-lg btn-secondary" href="/book/bookList">책 검색</a>
-                </p>
-                <p class="lead">상품 기능</p>
-                <p>
                     <a class="btn btn-lg btn-dark" href="/order/orderList">주문 목록</a>
-                </p>
-                <p class="lead">관리자 기능</p>
-                <p>
                     <a class="btn btn-lg btn-info" href="/bm/main">관리자</a>
-                </p>
+                </div>
             </div>
             <div th:replace="fragments/footer :: footer" />
         </div> <!-- /container -->

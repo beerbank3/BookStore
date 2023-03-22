@@ -95,7 +95,7 @@ public class OrderServiceTest {
         Integer TotalBookSales = orderService.findTotalBookSales();
 
         //then
-        assertEquals("책 판매액수 체크", Optional.of(80000),TotalBookSales);
+        assertSame("책 판매액수 체크", 80000,TotalBookSales);
     }
 
 }

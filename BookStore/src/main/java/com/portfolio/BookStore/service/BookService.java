@@ -40,5 +40,7 @@ public class BookService {
 
     public Book findOne(String isbn){ return bookRepository.findOne(isbn); }
 
+    public Integer countByBooks(){ return bookRepository.countByBooks();}
+
 
 }

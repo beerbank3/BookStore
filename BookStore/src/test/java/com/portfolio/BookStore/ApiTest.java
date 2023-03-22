@@ -37,60 +37,6 @@ class ApiTest {
     @Autowired BookService bookService;
 
     @Test
-    public void ApiTestTest() throws Exception{
-        String url = "https://dapi.kakao.com/v3/search/book?query=베르나르";
-        //Spring restTemplate
-        MultiValueMap<String, String> header = new LinkedMultiValueMap<>();
-        header.add("Authorization","KakaoAK 3a09703f244c2b8dbfbf567c4771eb0f");
-        HashMap<String, Object> result = new HashMap<String, Object>();
-        ResponseEntity<Object> resultMap = new ResponseEntity<>(null,header,200);
-
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-
-            HttpEntity<?> entity = new HttpEntity<>(header);
-
-            UriComponents uri = UriComponentsBuilder.fromHttpUrl(url).build();
-
-            resultMap = restTemplate.exchange(uri.toString(), HttpMethod.GET, entity, Object.class);
-
-            result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
-            result.put("header", resultMap.getHeaders()); //헤더 정보 확인
-            result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
-
-            //에러처리해야댐
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            result.put("statusCode", e.getRawStatusCode());
-            result.put("body"  , e.getStatusText());
-            System.out.println("error");
-            System.out.println(e.toString());
-
-        }
-        catch (Exception e) {
-            result.put("statusCode", "999");
-            result.put("body"  , "excpetion오류");
-            System.out.println(e.toString());
-
-        }
-
-        Book book = new Book();
-        //book.setAuthors(resultMap);
-        JSONObject jsonObject = new JSONObject((Map) resultMap.getBody());
-        JSONArray jsonArray = (JSONArray) jsonObject.get("documents");
-        for (Object o : jsonArray) {
-            System.out.println("o = " + o);
-        }
-
-        //JSONObject documents = (JSONObject) jsonObject.get("documents");
-        //System.out.println("jsonObject = " + documents.get("authors"));
-        //JSONObject jsonObject = (JSONObject) jsonParser.parse(resultMap.getBody().toString());
-        System.out.println("resultMap = " + resultMap.getBody());
-        System.out.println("resultMap = " + resultMap.getBody().getClass().getName());
-
-
-    }
-
-    @Test
     public void weather() throws Exception {
 
         final String BASE_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0";
@@ -135,7 +81,7 @@ class ApiTest {
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.TEMPLATE_AND_VALUES); //encoding 모드 설정
 
         WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL)
-                .defaultHeader("Authorization","KakaoAK 3a09703f244c2b8dbfbf567c4771eb0f").defaultHeader("Authorization","KakaoAK 3a09703f244c2b8dbfbf567c4771eb0f").build();
+                .defaultHeader("Authorization","KakaoAK 3a09703f244c2b8dbfbf567c4771eb0f").build();
 
         String book = wc.get()
                 .uri(uriBuilder -> uriBuilder.path("/v3/search/book")
@@ -179,7 +125,49 @@ class ApiTest {
         for (Book book1 : list) {
             System.out.println("book1.getTitle() = " + book1.getTitle());
         }
+    }
+    
+    @Test
+    public void MainBookList() throws Exception{
 
+        final String BASE_URL = "http://www.aladin.co.kr";
+        final String API_KEY = "ttbdlrwns55651140001";
+
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL); //UriBuilder를 생성하는 옵션을 설정하는 DefaultUriBuilderFactory 인스턴스 생성
+        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.TEMPLATE_AND_VALUES); //encoding 모드 설정
+
+        WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL).build();
+
+        String book = wc.get()
+                .uri(uriBuilder -> uriBuilder.path("/ttb/api/ItemList.aspx")
+                        .queryParam("ttbkey", API_KEY)
+                        .queryParam("QueryType", "Bestseller")
+                        .queryParam("MaxResults", "10")
+                        .queryParam("start", "1")
+                        .queryParam("SearchTarget", "Book")
+                        .queryParam("output", "JS")
+                        .queryParam("Version", "20131101").build())
+                .retrieve().bodyToMono(String.class).block();
+
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(book);
+        JSONArray jsonArray = (JSONArray) jsonObject.get("item");
+
+        List<Book> list = new ArrayList<>();
+        for (Object o : jsonArray) {
+            String authors = "";
+            String translators = "";
+            JSONObject bookObject =(JSONObject) o;
+            Book bookDto = new Book();
+            bookDto.setTitle((String) bookObject.get("title"));
+            bookDto.setAuthors((String)bookObject.get("author"));
+            bookDto.setThumbnail((String) bookObject.get("cover"));
+            list.add(bookDto);
+        }
+        for (Book book1 : list) {
+            System.out.println("book1.getTitle() = " + book1.getTitle());
+        }
     }
 
 }

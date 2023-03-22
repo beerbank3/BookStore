@@ -67,7 +67,7 @@ public class BookController {
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.TEMPLATE_AND_VALUES); //encoding 모드 설정
 
         WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(BASE_URL)
-                .defaultHeader("Authorization","KakaoAK 3a09703f244c2b8dbfbf567c4771eb0f").defaultHeader("Authorization","KakaoAK 3a09703f244c2b8dbfbf567c4771eb0f").build();
+                .defaultHeader("Authorization","KakaoAK 3a09703f244c2b8dbfbf567c4771eb0f").build();
 
         String book = "";
         List<Book> list = new ArrayList<>();

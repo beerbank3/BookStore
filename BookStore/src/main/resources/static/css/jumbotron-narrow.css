@@ -39,6 +39,7 @@ body {
 .jumbotron .btn {
     font-size: 21px;
     padding: 14px 24px;
+    margin: 20px;
 }
 /* Supporting marketing content */
 .marketing {
@@ -46,6 +47,14 @@ body {
 }
 .marketing p + h4 {
     margin-top: 28px;
+}
+.title {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    font-weight: bold;
 }
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
