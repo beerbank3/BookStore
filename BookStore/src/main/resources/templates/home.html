@@ -14,7 +14,7 @@
                     <div class="book-wrapper">
                         <div th:each="item : ${list}">
                             <img th:height="100px" th:src="${item.thumbnail}"/>
-                            <p class="title" th:text="${item.title}">message</p>
+                            <a th:href="@{/book/bookList(keyword=${item.title})}"><p class="title" th:text="${item.title}">message</p></a>
                         </div>
                     </div>
                 </div>
