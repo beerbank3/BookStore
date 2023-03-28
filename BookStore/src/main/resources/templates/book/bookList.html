@@ -5,51 +5,60 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <form action="/book/bookList"  method="get" >
-        <select name="category">
+        <select name="category" id="category">
             <option value="">선택안함</option>
             <option value="title">제목</option>
             <option value="isbn">책 코드</option>
             <option value="publisher">출판사</option>
             <option value="person">지은이</option>
         </select>
-        <input type="text" name="keyword">
-        <button type="submit">등록</button>
+        <input type="text" name="keyword" id="keyword" th:value="${param.keyword}">
+        <button type="submit">검색</button>
     </form>
-    <div>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>책표지</th>
-                <th>상품명</th>
-                <th>내용</th>
-                <th>가격</th>
-                <th>지은이</th>
-                <th>출판사</th>
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:if="${ #lists.size(list) > 0 }">
-                <tr th:each="item : ${list}">
-                    <td><a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><img th:src="${item.thumbnail}"/></a></td>
-                    <td th:style="${ 'width:150px;'}">
-                        <a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><span th:text="${item.title}">message</span></a>
-                    </td>
-                    <td th:style="${ 'width:500px; white-space: normal; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient: vertical; overflow: hidden;'}" th:utext="${item.contents}"></td>
-                    <td th:text="${item.price}"></td>
-                    <td th:text="${item.authors}"></td>
-                    <td th:text="${item.publisher}"></td>
-                </tr>
-            </th:block>
-            <th:block th:if="${ #lists.size(list) < 1 }">
-                <tr>
-                    <td th:colspan="6">검색된 책이 없습니다.</td>
-                </tr>
-            </th:block>
-            </tbody>
-        </table>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">책 목록</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>책표지</th>
+                        <th>상품명</th>
+                        <th>내용</th>
+                        <th>가격</th>
+                        <th>지은이</th>
+                        <th>출판사</th>
+                    </tr>
+                    </thead>
+                    <th:block th:if="${ #lists.size(list) > 0 }">
+                        <tr th:each="item : ${list}">
+                            <td><a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><img th:src="${item.thumbnail}"/></a></td>
+                            <td th:style="${ 'width:150px;'}">
+                                <a th:href="@{/book/bookForm(isbn=${item.getIsbn()})}"><span th:text="${item.title}">message</span></a>
+                            </td>
+                            <td th:style="${ 'width:500px; white-space: normal; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient: vertical; overflow: hidden;'}" th:utext="${item.contents}"></td>
+                            <td th:text="${item.price}"></td>
+                            <td th:text="${item.authors}"></td>
+                            <td th:text="${item.publisher}"></td>
+                        </tr>
+                    </th:block>
+                    <th:block th:if="${ #lists.size(list) < 1 }">
+                        <tr>
+                            <td th:colspan="6">검색된 책이 없습니다.</td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+        </div>
     </div>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
     <script src="bootstrap/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script th:inline="javascript">
+        var is_end = [[${is_end}]];
+        var page = [[${page}]];
+    </script>
 </body>
 </html>

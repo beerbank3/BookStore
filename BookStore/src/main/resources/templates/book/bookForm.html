@@ -4,7 +4,7 @@
 <body>
 <div class="container">
   <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-  <form role="form" action="/bookorder" method="post">
+  <form role="form" action="/order/bookorder" method="post">
     <input type="hidden" name="isbn" th:value="${ book.getIsbn() }">
     <div class="form-group">
       <img th:src="${book.getThumbnail()}"/>

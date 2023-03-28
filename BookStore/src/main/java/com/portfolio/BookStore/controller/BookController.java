@@ -54,6 +54,7 @@ public class BookController {
             bookpage = page;
         }else{
             bookpage = 1;
+            page = 1;
         }
         if(null != size && 0 != size){
             booksize = size;
@@ -113,6 +114,10 @@ public class BookController {
                 list.add(bookDto);
                 bookService.join(bookDto);
             }
+            JSONObject countBookObject =(JSONObject) jsonObject.get("meta");
+            model.addAttribute("total_count",countBookObject.get("total_count"));
+            model.addAttribute("is_end",countBookObject.get("is_end"));
+            model.addAttribute("page",page);
         }
         model.addAttribute("list",list);
 
@@ -130,29 +135,6 @@ public class BookController {
         return "book/bookForm";
     }
 
-    @PostMapping("/bookorder")
-    public String BookOrder(Model model,@RequestParam(required = false, name = "isbn") String isbn,@RequestParam(required = false, name = "count") Integer count) throws Exception{
-        if(null == isbn || isbn.isEmpty()){
-            return "redirect:/";
-        }
-        if(null == count || count == 0){
-            return "redirect:/";
-        }
-
-        orderService.order(isbn,count);
-
-        return "redirect:/order/orderList";
-    }
-
-    @GetMapping("/order/orderList")
-    public String OrderList(Model model) throws Exception{
-
-        List<Order> list = orderService.findOrders();
-
-        model.addAttribute("list",list);
-
-        return "/order/orderList";
-    }
     @Data
     static class BookDto{
         private String isbn;

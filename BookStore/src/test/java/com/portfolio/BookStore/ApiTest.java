@@ -125,6 +125,12 @@ class ApiTest {
         for (Book book1 : list) {
             System.out.println("book1.getTitle() = " + book1.getTitle());
         }
+
+        JSONObject countBookObject =(JSONObject) jsonObject.get("meta");
+        System.out.println("bookObject.get(\"is_end\") = " + countBookObject.get("is_end"));
+        System.out.println("bookObject.get(\"pageable_count\") = " + countBookObject.get("pageable_count"));
+        System.out.println("bookObject.get(\"total_count\") = " + countBookObject.get("total_count"));
+
     }
     
     @Test
@@ -168,6 +174,7 @@ class ApiTest {
         for (Book book1 : list) {
             System.out.println("book1.getTitle() = " + book1.getTitle());
         }
+
     }
 
 }
